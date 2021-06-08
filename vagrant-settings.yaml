@@ -1,0 +1,15 @@
+# configuration used by Vagrantfile
+box: centos/7
+hostname: vagrant.spark.local
+name: vagrantboxspark
+memory: 8192
+cpus: 2
+plugins:
+  - vagrant-vbguest
+  - vagrant-proxyconf
+ports:
+  - 9090:9090
+  - 8888:8888
+  - 4040:4040
+  - 8090:8080
+  - 8081:8081
