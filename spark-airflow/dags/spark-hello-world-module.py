@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 ###############################################
 # Parameters
 ###############################################
-spark_master = "spark://spark:7077"
+spark_master = "spark://spark-master:7077"
 csv_file = "/usr/local/spark/resources/data/movies.csv"
 
 ###############################################

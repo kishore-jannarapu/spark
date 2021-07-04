@@ -1,5 +1,35 @@
 version: '3'
 services:
+  airflow:
+    build:
+        context: ./airflow
+    image: airflow
+    restart: always
+    container_name: airflow
+    depends_on:
+        - postgres
+    environment:
+        - LOAD_EX=n
+        - EXECUTOR=Local
+        - AIRFLOW__CORE__FERNET_KEY="l7u-321Ud-pqOySaAwfF8aigekbN9VWCm3GxhdoyOPk="
+    logging:
+        options:
+            max-size: 10m
+            max-file: "3"
+    volumes:
+        - ./dags:/usr/local/airflow/dags
+        - ./data:/data
+        - ./app:/usr/local/spark/app
+        - ./plugins:/usr/local/airflow/plugins
+        - ./data/:/usr/local/spark/resources/data
+    ports:
+        - "7070:8080"
+    command: webserver
+    healthcheck:
+        test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+        interval: 30s
+        timeout: 30s
+        retries: 3
   spark-master:
     image: spark-master:3.1.1-hadoop3.2
     container_name: spark-master
@@ -8,6 +38,9 @@ services:
       - "7077:7077"
     environment:
       - INIT_DAEMON_STEP=setup_spark
+    volumes: 
+      #- ./app:/usr/local/spark/app
+      - ./data/:/usr/local/spark/resources/data
   spark-worker-1:
     image: spark-worker:3.1.1-hadoop3.2
     container_name: spark-worker-1
@@ -17,6 +50,8 @@ services:
       - "8081:8081"
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
+    volumes: 
+      - ./data/:/usr/local/spark/resources/data
   # spark-app:
   #   build:
   #     context: ./jobs/
@@ -36,30 +71,4 @@ services:
             options:
                 max-size: 10m
                 max-file: "3"
-  airflow:
-      build:
-          context: ./airflow
-      image: airflow
-      restart: always
-      container_name: airflow
-      depends_on:
-          - postgres
-      environment:
-          - LOAD_EX=n
-          - EXECUTOR=Local
-      logging:
-          options:
-              max-size: 10m
-              max-file: "3"
-      volumes:
-          - ./dags:/usr/local/airflow/dags
-          - ./data:/data
-          - ./plugins:/usr/local/airflow/plugins
-      ports:
-          - "7070:8080"
-      command: webserver
-      healthcheck:
-          test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
-          interval: 30s
-          timeout: 30s
-          retries: 3
+  

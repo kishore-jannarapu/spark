@@ -72,6 +72,7 @@ RUN set -ex \
         /usr/share/doc-base
 RUN pip install apache-airflow[crypto,celery,postgres,hive,jdbc,mysql,ssh${AIRFLOW_DEPS:+,}${AIRFLOW_DEPS}]==${AIRFLOW_VERSION}
 RUN pip uninstall -y SQLAlchemy && pip install SQLAlchemy==1.3.15
+RUN pip install pyspark
 COPY script/entrypoint.sh /entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
 
