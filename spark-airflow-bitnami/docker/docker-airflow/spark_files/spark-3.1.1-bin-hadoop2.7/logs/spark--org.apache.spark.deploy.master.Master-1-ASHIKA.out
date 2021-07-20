@@ -1,4 +1,0 @@
-Spark Command: C:\Program Files\Java\jdk1.8.0_211\bin\java -cp D:\spark-3.1.1-bin-hadoop2.7/conf\;D:\spark-3.1.1-bin-hadoop2.7\jars\* -Xmx1g org.apache.spark.deploy.master.Master --host --port 7077 --webui-port 8080
-========================================
-"C:\Program Files\Java\jdk1.8.0_211\bin\java" -cp "D:\spark-3.1.1-bin-hadoop2.7/conf\;D:\spark-3.1.1-bin-hadoop2.7\jars\*" -Xmx1g org.apache.spark.deploy.master.Master --host --port 7077 --webui-port 8080 
-D:\spark-3.1.1-bin-hadoop2.7/bin/spark-class: line 96: CMD: bad array subscript

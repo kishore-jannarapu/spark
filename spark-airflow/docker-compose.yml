@@ -4,7 +4,6 @@ services:
     build:
         context: ./airflow
     image: airflow
-    restart: always
     container_name: airflow
     depends_on:
         - postgres
@@ -22,6 +21,7 @@ services:
         - ./app:/usr/local/spark/app
         - ./plugins:/usr/local/airflow/plugins
         - ./data/:/usr/local/spark/resources/data
+        - ./creditcard-fraud-detection:/creditcard-fraud-detection
     ports:
         - "7070:8080"
     command: webserver
@@ -59,10 +59,43 @@ services:
   #   container_name: spark-app
   #   environment: 
   #     - ENABLE_INIT_DAEMON=false
+  ######################################## KAFKA #####################################
+  zookeeper:
+    image: zookeeper
+    container_name: zookeeper
+    build: 
+      context: ./zookeeper
+    ports:
+      - "2181:2181"    
+  kafka:
+    image: kafka
+    container_name: kafka
+    build: 
+      context: ./kafka
+    ports:
+      - "9092:9092"
+    depends_on: 
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_CREATE_TOPICS: "creditcardTransaction:2:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  ######################################### Cassandra ##################################### 
+  cassandra:
+    image: cassandra:3.11
+    container_name: cassandra
+    ports: 
+      - 7000:7000
+    volumes: 
+      - cassandraData:/var/lib/cassandra
+  
+  #####################################################################################
   postgres:
         image: postgres:9.6
         container_name: postgres
-        restart: always
+        restart: unless-stopped
         environment:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
@@ -71,4 +104,6 @@ services:
             options:
                 max-size: 10m
                 max-file: "3"
+volumes: 
+  cassandraData:
   

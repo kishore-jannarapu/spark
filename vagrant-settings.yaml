@@ -3,7 +3,7 @@ box: centos/7
 hostname: vagrant.spark.local
 name: vagrantboxspark
 memory: 8192
-cpus: 2
+cpus: 5
 plugins:
   - vagrant-vbguest
   - vagrant-proxyconf
