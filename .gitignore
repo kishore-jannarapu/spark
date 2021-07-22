@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 **/target
 **/build-files
+.idea/
+.vagrant/

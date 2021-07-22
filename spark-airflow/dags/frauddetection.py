@@ -54,7 +54,7 @@ def stopStartStreamingJob():
 
 default_args = {
     'owner': 'me',
-    'start_date': dt.datetime(2021, 7, 20, 13),
+    'start_date': dt.datetime(2021, 6, 1),
     'retries': 1,
     'retry_delay': dt.timedelta(minutes=5),
 }
@@ -62,13 +62,14 @@ default_args = {
 
 with DAG(DAG_NAME,
          default_args=default_args,
-         schedule_interval='*/20 * * * *',
+         schedule_interval='0 0 1 * *',
          ) as dag:
 
 
     remove_model = BashOperator(
         task_id='remove_model',
-        bash_command='rm -rf' + ' ' + home + '/FraudDetection/build-files/spark/training',
+        bash_command='rm -rf' + ' ' + home 
+        + '/FraudDetection/build-files/spark/training',
         default_args=default_args)
 
 
