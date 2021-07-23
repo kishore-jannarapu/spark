@@ -33,7 +33,7 @@ object Config {
       applicationConf = ConfigFactory.parseFile(new File(args(0)))
       val runMode = applicationConf.getString("config.mode")
       if(runMode == "local"){
-        localProjectDir = s"file:///${System.getProperty("user.home")}/frauddetection/"
+        localProjectDir = s"file:///creditcard-fraud-detection/FraudDetection/build-files/"
       }
       loadConfig()
     }

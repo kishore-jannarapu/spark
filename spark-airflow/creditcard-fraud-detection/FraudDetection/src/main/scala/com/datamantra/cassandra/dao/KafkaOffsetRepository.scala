@@ -3,7 +3,7 @@ package com.datamantra.cassandra.dao
 import java.sql.Timestamp
 
 import com.datamantra.creditcard.Enums
-import com.datastax.driver.core.PreparedStatement
+import com.datastax.oss.driver.api.core.cql.PreparedStatement
 import org.apache.log4j.Logger
 import org.apache.spark.sql.Row
 

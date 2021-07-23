@@ -2,20 +2,16 @@ package com.datamantra.spark.jobs
 
 import com.datamantra.cassandra.CassandraConfig
 import com.datamantra.config.Config
-import com.datamantra.spark.{DataReader, DataBalancing, SparkConfig}
+import com.datamantra.spark.{DataBalancing, DataReader, SparkConfig}
 import com.datamantra.spark.algorithms.Algorithms
 import com.datamantra.spark.pipeline.BuildPipeline
 import org.apache.spark.ml.Pipeline
-
-
-
 
 /**
  * Created by kafka on 9/5/18.
  */
 
 object FraudDetectionTraining extends SparkJob("Balancing Fraud & Non-Fraud Dataset"){
-
 
   def main(args: Array[String]) {
 

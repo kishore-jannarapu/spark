@@ -1,11 +1,12 @@
 package com.datamantra.cassandra.dao
 
 import java.sql.Timestamp
-
 import com.datamantra.creditcard.Enums
-import com.datastax.driver.core.PreparedStatement
+import com.datastax.oss.driver.api.core.cql.PreparedStatement
 import org.apache.log4j.Logger
 import org.apache.spark.sql.Row
+
+import java.time.LocalTime
 
 /**
  * Created by kafka on 11/6/18.
@@ -37,7 +38,7 @@ object CreditcardTransactionRepository {
   def cqlTransactionBind(prepared: PreparedStatement, record:Row) ={
     val bound = prepared.bind()
     bound.setString(Enums.TransactionCassandra.cc_num, record.getAs[String](Enums.TransactionCassandra.cc_num))
-    bound.setTimestamp(Enums.TransactionCassandra.trans_time, record.getAs[Timestamp](Enums.TransactionCassandra.trans_time))
+    bound.setLocalTime(Enums.TransactionCassandra.trans_time, record.getAs[LocalTime](Enums.TransactionCassandra.trans_time))
     bound.setString(Enums.TransactionCassandra.trans_num, record.getAs[String](Enums.TransactionCassandra.trans_num))
     bound.setString(Enums.TransactionCassandra.category, record.getAs[String](Enums.TransactionCassandra.category))
     bound.setString(Enums.TransactionCassandra.merchant, record.getAs[String](Enums.TransactionCassandra.merchant))

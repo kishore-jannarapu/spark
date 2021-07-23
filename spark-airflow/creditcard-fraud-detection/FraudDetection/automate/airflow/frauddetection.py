@@ -10,7 +10,7 @@ from os.path import expanduser
 import logging
 
 
-home = expanduser("~")
+home = '/creditcard-fraud-detection'
 
 DAG_NAME = 'fraud_detection'
 
@@ -48,7 +48,7 @@ def stopStartStreamingJob():
     remove_shutdown_marker = 'rm -rf /tmp/shutdownmarker'
     os.system(remove_shutdown_marker)
 
-    start_streaming = 'spark-submit --class com.datamantra.spark.jobs.RealTimeFraudDetection.DstreamFraudDetection --name "RealTime Creditcard FraudDetection" --master spark://datamantra:6066 --deploy-mode cluster  --total-executor-cores 1' + ' ' + home + '/frauddetection/spark/fruaddetection-spark.jar' + ' ' + home + '/frauddetection/spark/application-local.conf'
+    start_streaming = 'spark-submit --class com.datamantra.spark.jobs.RealTimeFraudDetection.DstreamFraudDetection --name "RealTime Creditcard FraudDetection" --master spark://datamantra:6066 --deploy-mode cluster  --total-executor-cores 1' + ' ' + home + '/FraudDetection/spark/fruaddetection-spark.jar' + ' ' + home + '/FraudDetection/spark/application-local.conf'
     os.system(start_streaming)
 
 
@@ -68,13 +68,13 @@ with DAG(DAG_NAME,
 
     remove_model = BashOperator(
         task_id='remove_model',
-        bash_command='rm -rf' + ' ' + home + '/frauddetection/spark/training',
+        bash_command='rm -rf' + ' ' + home + '/FraudDetection/spark/training',
         default_args=default_args)
 
 
     create_model = BashOperator(
         task_id='create_model',
-        bash_command='spark-submit --class com.datamantra.spark.jobs.FraudDetectionTraining --name "Fraud Detection Spark ML Training" --master spark://datamantra:7077  --total-executor-cores 1' + ' ' + home + '/frauddetection/spark/fruaddetection-spark.jar' + ' ' + home + '/frauddetection/spark/application-local.conf',
+        bash_command='spark-submit --class com.datamantra.spark.jobs.FraudDetectionTraining --name "Fraud Detection Spark ML Training" --master spark://datamantra:7077  --total-executor-cores 1' + ' ' + home + '/FraudDetection/spark/fruaddetection-spark.jar' + ' ' + home + '/FraudDetection/spark/application-local.conf',
         default_args=default_args)
 
     
@@ -90,7 +90,7 @@ with DAG(DAG_NAME,
 
     #stop_start_streaming = BashOperator(
     #    task_id='stop_start_streaming',
-    #    bash_command='python' + ' ' + home + '/frauddetection/pythonOperatonFunction.py',
+    #    bash_command='python' + ' ' + home + '/FraudDetection/pythonOperatonFunction.py',
     #    default_args=default_args,
     #    dag=dag)
 

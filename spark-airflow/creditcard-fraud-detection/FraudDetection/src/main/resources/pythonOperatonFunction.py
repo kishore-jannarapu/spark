@@ -4,7 +4,7 @@ import subprocess
 import sys, os
 from os.path import expanduser
 
-home = expanduser("~")
+home = "/creditcard-fraud-detection"
 def stopStartStreamingJob():
     stop_streaming = 'touch /tmp/shutdownmarker'
     os.system(stop_streaming)
@@ -31,7 +31,7 @@ def stopStartStreamingJob():
     remove_shutdown_marker = 'rm -rf /tmp/shutdownmarker'
     os.system(remove_shutdown_marker)
 
-    start_streaming = 'spark-submit --class com.datamantra.spark.jobs.RealTimeFraudDection --name "RealTime Creditcard FraudDetection" --master spark://datamantra:7077' + ' '  + '--deploy-mode cluster' + ' ' + home + '/frauddetection/spark/fruaddetection-spark.jar' + ' ' + home + '/frauddetection/spark/application-local.conf &'
+    start_streaming = 'spark-submit --class com.datamantra.spark.jobs.RealTimeFraudDection --name "RealTime Creditcard FraudDetection" --master spark://datamantra:7077' + ' '  + '--deploy-mode cluster' + ' ' + home + '/FraudDetection/spark/fruaddetection-spark.jar' + ' ' + home + '/FraudDetection/spark/application-local.conf &'
     os.system(start_streaming)
 
 if __name__ == '__main__':
