@@ -18,8 +18,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger()
 
 def stopStartStreamingJob():
-    stop_streaming = 'touch /tmp/shutdownmarker'
-    os.system(stop_streaming)
+    os.system('touch /tmp/shutdownmarker')
     shutdown_flag = False
   
     while not shutdown_flag:

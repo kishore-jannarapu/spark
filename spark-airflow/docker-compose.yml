@@ -40,7 +40,7 @@ services:
       - INIT_DAEMON_STEP=setup_spark
     volumes:
       #- ./app:/usr/local/spark/app
-      - ./creditcard-fraud-detection:/creditcard-fraud-detection:rw
+      - ./model:/creditcard-fraud-detection:rw
       - ./data/:/usr/local/spark/resources/data
   spark-worker-1:
     image: spark-worker:3.1.1-hadoop3.2
@@ -53,7 +53,7 @@ services:
       - 'SPARK_MASTER=spark://spark-master:7077'
     volumes:
       - ./data/:/usr/local/spark/resources/data
-      - ./creditcard-fraud-detection:/creditcard-fraud-detection:rw
+      - ./model:/creditcard-fraud-detection:rw
   # spark-app:
   #   build:
   #     context: ./jobs/

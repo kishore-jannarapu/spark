@@ -17,7 +17,7 @@ import org.apache.kafka.clients.producer._
 /**
  * Created by kafka on 14/5/18.
  */
-object TrasactionProducer {
+object TransactionProducer {
 
   var applicationConf:Config = _
   val props = new Properties()
