@@ -34,7 +34,7 @@ object FraudDetectionTraining extends SparkJob("Balancing Fraud & Non-Fraud Data
     val pipelineStages = BuildPipeline.createFeaturePipeline(transactionDF.schema, coloumnNames)
     val pipeline = new Pipeline().setStages(pipelineStages)
     val PreprocessingTransformerModel = pipeline.fit(transactionDF)
-    PreprocessingTransformerModel.save(SparkConfig.preprocessingModelPath)
+    PreprocessingTransformerModel.write.overwrite.save(SparkConfig.preprocessingModelPath)
 
     val featureDF = PreprocessingTransformerModel.transform(transactionDF)
 
@@ -56,7 +56,7 @@ object FraudDetectionTraining extends SparkJob("Balancing Fraud & Non-Fraud Data
 
 
     val randomForestModel = Algorithms.randomForestClassifier(finalfeatureDF)
-    randomForestModel.save(SparkConfig.modelPath)
+    randomForestModel.write.overwrite.save(SparkConfig.modelPath)
 
   }
 

@@ -19,10 +19,7 @@ object IntialImportToCassandra extends SparkJob("Initial Import to Cassandra"){
 
     import sparkSession.implicits._
 
-    val transactionDF = DataReader.read(SparkConfig.transactionDatasouce, Schema.fruadCheckedTransactionSchema)
-      .withColumn("trans_date", split($"trans_date", "T").getItem(0))
-      .withColumn("trans_time", concat_ws(" ", $"trans_date", $"trans_time"))
-      .withColumn("trans_time", to_timestamp($"trans_time", "YYYY-MM-dd HH:mm:ss") cast(TimestampType))
+   
 
     val customerDF = DataReader.read(SparkConfig.customerDatasource, Schema.customerSchema)
 
@@ -32,6 +29,11 @@ object IntialImportToCassandra extends SparkJob("Initial Import to Cassandra"){
       .mode("append")
       .options(Map("keyspace" -> CassandraConfig.keyspace, "table" -> CassandraConfig.customer))
       .save()
+
+    val transactionDF = DataReader.read(SparkConfig.transactionDatasouce, Schema.fruadCheckedTransactionSchema)
+          .withColumn("trans_date", split($"trans_date", "T").getItem(0))
+          .withColumn("trans_time", concat_ws(" ", $"trans_date", $"trans_time"))
+          .withColumn("trans_time", to_timestamp($"trans_time", "y-M-d H:m:s") cast(TimestampType))
 
     val customerAgeDF = customerDF.withColumn("age", (datediff(current_date(),to_date($"dob"))/365).cast(IntegerType))
 
